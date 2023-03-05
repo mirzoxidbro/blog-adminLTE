@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,16 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('update-post', function(User $user, Post $post){
+            if($user->id == $post->user_id || ($user->role !== null && $user->role->name == 'manager')){
+                return true;
+            }
+        });
+
+        Gate::define('delete-post', function(User $user, Post $post){
+            if($user->id == $post->user_id || $user->role->name == 'manager'){
+                return true;
+            }
+        });
     }
 }

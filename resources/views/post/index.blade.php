@@ -22,7 +22,7 @@
                                 <td>{{$post->updated_at}}</td>
                                 <td class="d-flex flex-between">
                                     <a href="{{route('post.edit', ['post' => $post])}}" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('post.destroy',$post->id) }}" method="POST">   
+                                    <form action="{{ route('post.destroy',$post) }}" method="POST">   
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

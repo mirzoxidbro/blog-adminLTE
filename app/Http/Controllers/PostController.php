@@ -12,6 +12,7 @@ use App\Http\UseCases\Post\UpdatePostUseCase;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -36,18 +37,28 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        if (! Gate::allows('update-post', $post)) {
+            abort(403);
+        }
+
         return view('post.edit', compact('post'));
     }
 
     public function update(Post $post, UpdateRequest $request, UpdatePostUseCase $useCase)
     {
+        if (! Gate::allows('update-post', $post)) {
+            abort(403);
+        }
         $useCase->execute($request->validated(), $post->id);
         return redirect()->route('post.index');
     }
 
-    public function destroy(int $id, DeletePostUseCase $useCase)
+    public function destroy(Post $post, DeletePostUseCase $useCase)
     {
-        $useCase->execute($id);
+        if (! Gate::allows('delete-post', $post)) {
+            abort(403);
+        }
+        $useCase->execute($post);
         
         return redirect()->back();
     }

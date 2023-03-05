@@ -4,8 +4,8 @@ namespace App\Http\UseCases\Post;
 
 class DeletePostUseCase extends BasePostUseCase
 {
-    public function execute(int $id)
+    public function execute(object $post)
     {
-        return $this->repository->delete($id);
+        return $this->repository->delete($post);
     }
 }

@@ -31,8 +31,9 @@ class PostRepository implements PostRepositoryInterface
         $post->save();
     }
 
-    public function delete(int $id)
+    public function delete(object $post)
     {
-        Post::findOrFail($id)->delete();
+        $post->delete();
+        // Post::findOrFail($id)->delete();
     }
 }

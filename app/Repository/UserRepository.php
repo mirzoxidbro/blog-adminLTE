@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Infrastructure\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -14,7 +15,13 @@ class UserRepository implements UserRepositoryInterface
 
     public function save(array $data)
     {
-        return User::create($data);
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        return $user;
     }
 
     public function update(array $data, int $id)

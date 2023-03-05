@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::query()->orderByDesc('updated_at')->paginate(6);
 
         return view('users.index', compact('users'));
     }
@@ -19,36 +22,28 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        // $created = $storeUseCase->execute($request->validated());
-        // if(!$created)
-        // {
-        //     return redirect()->back()->with('error', __('word.error_creating_word'));
-        // }
-
-        // return redirect()->route('mobile.word.index')->with('success', __('word.created_successfully'));
+        User::create($request->validated());
+        return redirect()->route('user.index');
     }
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('word'));
+        return view('users.edit', compact('user'));
     }
 
-    public function update(User $user, Request $request)
+    public function update(User $user, UpdateRequest $request)
     {
-        // $updated = $updateUseCase->execute($user->id, $request->validated());
-        // if (!$updated) {
-        //     return redirect()->back()->with('error', __('word.updating_error'));
-        // }
-
-        // return redirect()->route('mobile.word.index')->with('success', __('word.updated_successfully'));
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+        return redirect()->route('user.index');
     }
 
-    public function destroy($user)
+    public function destroy(int $id)
     {
-        //    $deleteUseCase->execute($user);
-
-        // return redirect()->route('mobile.word.index')->with('success', __('word.deleted_successfully'));
+        User::findOrFail($id)->delete();
+        return redirect()->back();
     }
 }

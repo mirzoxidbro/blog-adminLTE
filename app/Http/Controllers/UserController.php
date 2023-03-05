@@ -11,6 +11,11 @@ use App\Http\UseCases\User\UpdateUserUseCase;
 use App\Models\User;
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:manager');
+    }
+
     public function index(GetUserUseCase $useCase)
     {
         $users = $useCase->execute();

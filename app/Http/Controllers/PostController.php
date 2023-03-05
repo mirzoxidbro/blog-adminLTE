@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
+use App\Http\UseCases\Post\CreatePostUseCase;
+use App\Http\UseCases\Post\DeletePostUseCase;
+use App\Http\UseCases\Post\GetPostUseCase;
 use App\Http\UseCases\Post\StorePostUseCase;
+use App\Http\UseCases\Post\UpdatePostUseCase;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(GetPostUseCase $useCase)
     {
-        $posts = Post::query()->select(['id', 'post', 'status', 'updated_at'])->orderByDesc('updated_at')->paginate(4);
-
+        $posts = $useCase->execute();
         return view('post.index', compact('posts'));
     }
 
-    public function create()
+    public function create(CreatePostUseCase $useCase)
     {
-        $users = User::query()->select('name', 'id')->get();
-    
+        $users = $useCase->execute();
         return view('post.create', compact('users'));
     }
 
@@ -37,17 +39,16 @@ class PostController extends Controller
         return view('post.edit', compact('post'));
     }
 
-    public function update(Post $post, UpdateRequest $request)
+    public function update(Post $post, UpdateRequest $request, UpdatePostUseCase $useCase)
     {
-        $post->name = $request->name;
-        $post->email = $request->email;
-        $post->save();
+        $useCase->execute($request->validated(), $post->id);
         return redirect()->route('post.index');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id, DeletePostUseCase $useCase)
     {
-        Post::findOrFail($id)->delete();
+        $useCase->execute($id);
+        
         return redirect()->back();
     }
 }

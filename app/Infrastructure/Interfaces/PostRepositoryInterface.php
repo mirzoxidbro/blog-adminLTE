@@ -8,7 +8,7 @@ interface PostRepositoryInterface
 
     public function save(array $data);
 
-    public function show(int $id);
+    public function create();
 
     public function update(array $data, int $id);
 

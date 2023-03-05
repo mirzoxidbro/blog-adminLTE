@@ -30,9 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     
-    Route::prefix('post')->name('post.')->group(function () {
-        Route::post('/post', [PostController::class, 'store'])->name('store');
-    });
+   
 });
 
 Route::prefix('user')->name('user.')->group(function () {
@@ -42,6 +40,15 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
     Route::post('/{user}/edit', [UserController::class, 'update'])->name('update');
     Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('post')->name('post.')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::get('/create', [PostController::class, 'create'])->name('create');
+    Route::post('/create', [PostController::class, 'store'])->name('store');
+    Route::get('/{post}/edit', [PostController::class, 'edit'])->name('edit');
+    Route::post('/{post}/edit', [PostController::class, 'update'])->name('update');
+    Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
 });
 
 require __DIR__.'/auth.php';

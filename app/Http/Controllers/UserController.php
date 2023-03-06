@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\UseCases\User\DeleteUserUseCase;
+use App\Http\UseCases\User\GetRolesUseCase;
 use App\Http\UseCases\User\GetUserUseCase;
 use App\Http\UseCases\User\StoreUserUseCase;
 use App\Http\UseCases\User\UpdateUserUseCase;
@@ -22,9 +23,10 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-    public function create()
+    public function create(GetRolesUseCase $useCase)
     {
-        return view('users.create');
+        $roles = $useCase->execute();
+        return view('users.create', compact('roles'));
     }
 
     public function store(StoreUserUseCase $useCase, StoreRequest $request)
@@ -33,9 +35,10 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function edit(User $user)
+    public function edit(User $user, GetRolesUseCase $useCase)
     {
-        return view('users.edit', compact('user'));
+        $roles = $useCase->execute();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     public function update(User $user, UpdateRequest $request, UpdateUserUseCase $useCase)

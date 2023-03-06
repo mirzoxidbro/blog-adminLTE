@@ -10,7 +10,12 @@ class PostRepository implements PostRepositoryInterface
 {
     public function getPost()
     {
-       return Post::query()->select(['id', 'post', 'status', 'updated_at'])->orderByDesc('updated_at')->paginate(4);
+        if(auth()->user()->role->name == 'manager')
+        {
+            return Post::query()->select(['id', 'post', 'status', 'updated_at'])->orderByDesc('updated_at')->paginate(4);
+        }
+
+        return Post::query()->select(['id', 'post', 'status', 'updated_at'])->where('user_id', auth()->user()->id)->orderByDesc('updated_at')->get();
     }
 
     public function save(array $data)
@@ -26,14 +31,13 @@ class PostRepository implements PostRepositoryInterface
     public function update(array $data, int $id)
     {
         $post = Post::findOrFail($id);
-        $post->name = $data['name'];
-        $post->email = $data['email'];
+        $post->name = $data['post'];
+        $post->email = $data['status'];
         $post->save();
     }
 
     public function delete(object $post)
     {
         $post->delete();
-        // Post::findOrFail($id)->delete();
     }
 }

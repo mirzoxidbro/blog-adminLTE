@@ -23,7 +23,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:6',
-            'email' => 'required|string'
+            'email' => 'required|string',
+            'role_id' => 'required|integer|exists:roles,id'
         ];
     }
 }

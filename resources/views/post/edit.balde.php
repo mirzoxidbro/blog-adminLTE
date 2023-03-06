@@ -1,5 +1,5 @@
 <x-main>
-    <form action="{{route('post.update', ['post' => $post])}}" method="post" >
+    <form action="{{route('post.update', ['post' => $post])}}" method="post">
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Post</label>

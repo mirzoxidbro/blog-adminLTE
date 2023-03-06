@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Post;
 
+use App\Enum\PostStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateRequest extends FormRequest
 {
@@ -22,7 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'post' => 'required|string',
+            'user_id' => 'required|numeric|exists:users,id',
+            'status' => ['required', new Enum(PostStatus::class)]
         ];
     }
 }

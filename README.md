@@ -1,3 +1,6 @@
+## Login 
+email: manager@gmail.com,
+password: password
 ## Proyektni o'rnatish
 
 ```

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/{post}/edit', [PostController::class, 'update'])->name('update');
         Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('userpost')->name('userpost.')->group(function () {
+        Route::get('/', [UserPostController::class, 'index'])->name('index');
+        Route::get('/create', [UserPostController::class, 'create'])->name('create');
+        Route::post('/create', [UserPostController::class, 'store'])->name('store');
+        Route::get('/{post}/edit', [UserPostController::class, 'edit'])->name('edit');
+        Route::post('/{post}/edit', [UserPostController::class, 'update'])->name('update');
+        Route::delete('/{post}', [UserPostController::class, 'destroy'])->name('destroy');
+    });
+
+
 });
 
 

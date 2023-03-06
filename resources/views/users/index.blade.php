@@ -10,6 +10,7 @@
                             <th scope="col">#ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
+                            <th scope="col">Role</th>
                             <th scope="col">Updated At</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -20,6 +21,7 @@
                                 <th>{{ $user->id }}</th>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->role->name }}</td>
                                 <td>{{ $user->updated_at }}</td>
                                 <td class="d-flex flex-between">
                                     <a href="{{route('user.edit', ['user' => $user])}}" class="btn btn-success"><i class="fas fa-edit"></i></a>

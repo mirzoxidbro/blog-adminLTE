@@ -8,9 +8,9 @@ interface PostRepositoryInterface
 
     public function save(array $data);
 
-    public function create();
+    public function getUsers();
 
-    public function update(array $data, int $id);
+    public function update(object $post);
 
     public function delete(object $post);
 }

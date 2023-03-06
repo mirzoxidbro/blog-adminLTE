@@ -3,7 +3,7 @@
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Post</label>
-            <textarea name="post" class="form-control" id="exampleFormControlTextarea1" rows="3" value="{{$post->post}}"></textarea>
+            <textarea name="post" class="form-control" id="exampleFormControlTextarea1" rows="3">{{$post->post}}</textarea>
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Status</label>
